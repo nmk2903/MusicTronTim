@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trình phát nhạc</title>
+    <style>
+        .music-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 5px;
+        }
+
+        .music-item {
+            padding: 10px;
+            background-color: #f0f0f0;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        @media (max-width: 767px) {
+            .music-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="music-list">
+        <div class="music-item" onclick="playMusic('canh1.mp3')">Cảnh 1</div>
+        <div class="music-item" onclick="playMusic('canh2.mp3')">Cảnh 2</div>
+        <div class="music-item" onclick="playMusic('canh4.mp3')">Cảnh 4</div>
+        <div class="music-item" onclick="playMusic('canh4 2.mp3')">Cảnh 5</div>
+        <div class="music-item" onclick="playMusic('canh5.mp3')">Cảnh 6</div>
+    </div>
+    <audio id="audioPlayer" controls>
+        <source id="audioSource" src="" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+</body>
+<script>
+    var audioPlayer = document.getElementById("audioPlayer");
+    var audioSource = document.getElementById("audioSource");
+    var isPlaying = false;
+    var playbackPosition = 0;
+
+    function playMusic(src) {
+        if (isPlaying) {
+            audioPlayer.pause();
+            isPlaying = false;
+            playbackPosition = audioPlayer.currentTime;
+        } else {
+            audioSource.src = src;
+            audioPlayer.load();
+            audioPlayer.currentTime = playbackPosition;
+            audioPlayer.play();
+            isPlaying = true;
+        }
+    }
+
+    audioPlayer.onended = function () {
+        isPlaying = false;
+    };
+
+    function restartMusic() {
+        audioPlayer.currentTime = 0;
+        audioPlayer.play();
+        isPlaying = true;
+    }
+</script>
+
+</html>
